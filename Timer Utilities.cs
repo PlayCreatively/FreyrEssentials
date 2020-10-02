@@ -1,4 +1,8 @@
-﻿namespace FreyrEssentials
+﻿using System;
+using System.Collections;
+using UnityEngine;
+
+namespace FreyrEssentials
 {
 	public enum Normalization { clamp, smoothClamp, unlimited }
 
@@ -91,7 +95,6 @@
 			return timer;
 		}
 		public static Timer Finished => new Timer { Reached = true };
-
 
 		public IEnumerator GetRoutine(Action<float> Routine)
 		{

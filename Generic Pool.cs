@@ -1,4 +1,7 @@
-﻿namespace FreyrEssentials
+﻿using System;
+using System.Collections.Generic;
+
+namespace FreyrEssentials
 {
 	/// <summary>
 	/// Generic pool
