@@ -17,6 +17,9 @@
 		public Sign(float value) : this()
 			=> Value = value < 0 ? -1 : 1;
 
+		public Sign(int value) : this()
+			=> Value = value < 0 ? -1 : 1;
+
 		public static implicit operator Sign(float value)
 			=> new Sign(value);
 
