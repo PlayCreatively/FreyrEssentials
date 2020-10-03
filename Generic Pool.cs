@@ -42,7 +42,7 @@ namespace FreyrEssentials
 
 		}
 
-		public T GetAvailable()
+		public T Take()
 		{
 			if (contents.Count > 0)
 			{
@@ -53,23 +53,24 @@ namespace FreyrEssentials
 			return CreateNew();
 		}
 
-		public void GetAvailableNonAlloc(T[] array, int count)
+		public void TakeNonAlloc(T[] array, int count)
 		{
 			for (int i = 0; i < count; i++)
-				array[i] = GetAvailable();
+				array[i] = Take();
 		}
 
-		public void GetAvailableNonAlloc(T[] array)
+		public void TakeNonAlloc(T[] array)
 		{
 			for (int i = 0; i < array.Length; i++)
-				array[i] = GetAvailable();
+				array[i] = Take();
 		}
 
-		public void GetAvailable(out T[] array, int count)
+		public T[] Take(int count)
 		{
-			array = new T[count];
+			T[] array = new T[count];
 			for (int i = 0; i < count; i++)
-				array[i] = GetAvailable();
+				array[i] = Take();
+			return array;
 		}
 	}
 }
