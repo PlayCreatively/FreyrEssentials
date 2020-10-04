@@ -42,7 +42,7 @@ namespace FreyrEssentials
 
 		}
 
-		public T Take()
+		public T Borrow()
 		{
 			if (contents.Count > 0)
 			{
@@ -53,23 +53,23 @@ namespace FreyrEssentials
 			return CreateNew();
 		}
 
-		public void TakeNonAlloc(T[] array, int count)
+		public void BorrowNonAlloc(T[] array, int count)
 		{
 			for (int i = 0; i < count; i++)
-				array[i] = Take();
+				array[i] = Borrow();
 		}
 
-		public void TakeNonAlloc(T[] array)
+		public void BorrowNonAlloc(T[] array)
 		{
 			for (int i = 0; i < array.Length; i++)
-				array[i] = Take();
+				array[i] = Borrow();
 		}
 
-		public T[] Take(int count)
+		public T[] Borrow(int count)
 		{
 			T[] array = new T[count];
 			for (int i = 0; i < count; i++)
-				array[i] = Take();
+				array[i] = Borrow();
 			return array;
 		}
 	}
