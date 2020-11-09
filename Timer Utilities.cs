@@ -70,7 +70,9 @@ namespace FreyrEssentials
 	public class Timer : Bar
 	{
 		public float TimeStarted { get; private set; }
-		public override float CurrentValue => Time.time - TimeStarted;
+		public override float CurrentValue => GetTime() - TimeStarted;
+
+        readonly Func<float> GetTime = () => Time.time;
 
 		/// <param name="time">The time to count towards.</param>
 		/// <param name="clamp">Whether to clamp the progress or let it exceed 1. By default it's true</param>
@@ -78,22 +80,29 @@ namespace FreyrEssentials
 		public Timer() : base() { }
 
 		public Timer(Normalization normalization) : base(normalization) { }
+		public Timer(Normalization normalization, Func<float> timeSource) : base(normalization)
+        {
+			GetTime = timeSource;
+        }
 
 		/// <summary>
 		/// Start/reset the clock.
 		/// </summary>
 		public void Start(float setTime)
 		{
-			TimeStarted = Time.time;
+			TimeStarted = GetTime();
 			Reached = false;
 			TopValue = setTime;
 		}
-		public static Timer Create(float setTime, Normalization normalization = 0)
-		{
-			Timer timer = new Timer(normalization);
+		public static Timer Create(float setTime, Normalization normalization = 0) 
+			=> Create(setTime, () => Time.time, normalization);
+		public static Timer Create(float setTime, Func<float> timeSource, Normalization normalization = 0)
+        {
+			Timer timer = new Timer(normalization, timeSource);
 			timer.Start(setTime);
 			return timer;
-		}
+        }
+
 		public static Timer Finished => new Timer { Reached = true };
 
 		public IEnumerator GetRoutine(Action<float> Routine)
@@ -109,7 +118,7 @@ namespace FreyrEssentials
 		}
 
 		public override void Restart()
-			=> TimeStarted = Time.time;
+			=> TimeStarted = GetTime();
 
 		public static implicit operator Timer(bool boolValue)
 			=> new Timer { Reached = boolValue };
