@@ -1,5 +1,5 @@
 # FreyrEssentials
-*Tools I wouldn't function without*
+*Tools I wouldn't function without* 💻
 
 
 ## Timer class
