@@ -1,4 +1,4 @@
-# Freyr_C_Sharp_Essentials
+# FreyrEssentials
 *Tools I wouldn't function without*
 
 
