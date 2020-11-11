@@ -16,14 +16,16 @@ or as a bool
 if(myTimer)
 ```
 
-## Pool class  
+## Pool\<T> class  
 _Lightweight generic pooling class._
 
 ### Why use Pool?
 Pool is just a simple lightweight pooling system which takes care of the pooling boilerplate.
 
 ### How to use
-Create a pool
+<img src="https://static.wikia.nocookie.net/dragonquest/images/6/60/Slime_Artwork.png/revision/latest/scale-to-width-down/1000?cb=20201021141416" alt="drawing" width="80"/><img/>
+
+#### Constructing a pool
 ``` c#
 Pool<Slime> slimePool = new Pool<Slime>
             (() => new GameObject().AddComponent<Slime>(),
@@ -40,3 +42,5 @@ What I do is use it to enable/disable the _Slime's_ gameObject depending on that
 ``` c#
 (isSpawning, slime) => slime.gameObject.SetActive(isSpawning)
 ```
+#### Borrow/Return
+Now that you've made a pool you can start borrowing and returning some instances. Use `slimePool.Borrow()` and `slimePool.Return()` respectively. That's all.
