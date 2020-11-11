@@ -22,8 +22,7 @@ _Lightweight generic pooling class._
 ### Why use Pool?
 Pool is just a simple lightweight pooling system which takes care of the pooling boilerplate.
 
-### How to use
-<img src="https://static.wikia.nocookie.net/dragonquest/images/6/60/Slime_Artwork.png/revision/latest/scale-to-width-down/1000?cb=20201021141416" alt="drawing" width="80"/><img/>
+### How to use <img src="https://static.wikia.nocookie.net/dragonquest/images/6/60/Slime_Artwork.png/revision/latest/scale-to-width-down/1000?cb=20201021141416" draggable="false" alt="drawing" width="60"/><img/>
 
 #### Constructing a pool
 ``` c#
@@ -33,7 +32,7 @@ Pool<Slime> slimePool = new Pool<Slime>
 ```
 The first parameter called `CreateNew` is a `Func<T>` which will be used
 by the Pool class to create new instances of `T`.
-So what I'm doing above is instantiating a new GameObject and adding to it a _Slime_ component which more importantly returns the instance.
+So what I'm doing is instantiating a new GameObject and adding to it a _Slime_ component which more importantly then returns its instance.
 ``` c#
 () => Instantiate(gameObject).AddComponent<Slime>() 
 ```
@@ -43,4 +42,4 @@ What I do is use it to enable/disable the _Slime's_ gameObject depending on that
 (isSpawning, slime) => slime.gameObject.SetActive(isSpawning)
 ```
 #### Borrow/Return
-Now that you've made a pool you can start borrowing and returning some instances. Use `slimePool.Borrow()` and `slimePool.Return()` respectively. That's all.
+Now that you've made a pool you can start borrowing and returning some instances using `slimePool.Borrow()` and `slimePool.Return()` respectively.
