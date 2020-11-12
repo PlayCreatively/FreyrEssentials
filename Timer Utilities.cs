@@ -40,7 +40,10 @@ namespace FreyrEssentials
 		public void Finish()
 			=> Reached = true;
 		public virtual void Restart()
-			=> CurrentValue = 0f;
+        {
+			CurrentValue = 0f;
+			Reached = false;
+        }
 
 		public static implicit operator float(Bar bar)
 		{
@@ -60,7 +63,7 @@ namespace FreyrEssentials
 		}
 
 		public static implicit operator bool(Bar bar)
-			=> bar.CurrentValue >= bar.TopValue;
+			=> bar.Reached || bar.CurrentValue >= bar.TopValue;
 	}
 
 	/// <summary>
@@ -118,7 +121,10 @@ namespace FreyrEssentials
 		}
 
 		public override void Restart()
-			=> TimeStarted = GetTime();
+        {
+			base.Restart();
+			TimeStarted = GetTime();
+        }
 
 		public static implicit operator Timer(bool boolValue)
 			=> new Timer { Reached = boolValue };
