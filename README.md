@@ -1,15 +1,18 @@
 # Timer class
 Create a countdown and start the timer
 ``` c#
+//Create and start a count down of 5 seconds.
 Timer myTimer = Timer.Create(5f);
 ```
 read the value as a normal progression of the countdown ranging from 0 to 1
 ``` c#
+//Interpolate between pointA and pointB by myTimer's progression to 5 seconds.
 Vector2.Lerp(pointA, pointB, myTimer)
 ```
 or as a bool
 ``` c#
-if(myTimer)
+//While myTimer hasn't reached 5 seconds.
+while(!myTimer)
 ```
 
 ___
