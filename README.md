@@ -1,8 +1,4 @@
-# FreyrEssentials
-*Tools I wouldn't function without* 💻
-
-
-## Timer class
+# Timer class
 Create a countdown and start the timer
 ``` c#
 Timer myTimer = Timer.Create(5f);
@@ -16,7 +12,7 @@ or as a bool
 if(myTimer)
 ```
 
-## Pool\<T> class  
+# Pool\<T> class  
 _Lightweight generic pooling class._
 
 ### Why use Pool?
