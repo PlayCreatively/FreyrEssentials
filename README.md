@@ -12,6 +12,8 @@ or as a bool
 if(myTimer)
 ```
 
+___
+
 # Pool\<T> class  
 _Lightweight generic pooling class._
 
