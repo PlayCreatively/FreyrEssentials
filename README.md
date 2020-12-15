@@ -35,7 +35,7 @@ The first parameter called `CreateNew` is a `Func<T>` which will be used
 by the Pool class to create new instances of `T`.
 ``` c#
 //Method which instantiates a gameObject, adds a slime component and returns a reference to it.
-() => Instantiate(gameObject).AddComponent<Slime>() 
+() => new GameObject().AddComponent<Slime>() 
 ```
 The second parameter is optional, called `OnChange` which is an `Action<bool, T>` and runs when a T instance is being either __borrowed__ or __returned__.
 ``` c#
