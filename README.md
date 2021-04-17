@@ -15,7 +15,6 @@ or as a bool
 while(!myTimer)
 ```
 
-___
 
 # Pool\<T> class  
 _Lightweight generic pooling class._
@@ -31,12 +30,14 @@ Pool<Slime> slimePool = new Pool<Slime>
             (() => new GameObject().AddComponent<Slime>(),
             (isSpawning, slime) => slime.gameObject.SetActive(isSpawning));
 ```
+___
 The first parameter called `CreateNew` is a `Func<T>` which will be used
 by the Pool class to create new instances of `T`.
 ``` c#
 //Method which instantiates a gameObject, adds a slime component and returns a reference to it.
 () => new GameObject().AddComponent<Slime>() 
 ```
+___
 The second parameter is optional, called `OnChange` which is an `Action<bool, T>` and runs when a T instance is being either __borrowed__ or __returned__.
 ``` c#
 //Enable/disable the slime component based on if it's being borrowed or returned.
