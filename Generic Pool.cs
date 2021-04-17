@@ -13,6 +13,9 @@ namespace FreyrEssentials
 		readonly Func<T> CreateNew;
 		readonly Action<bool, T> OnChange;
 
+		/// <summary>How many instances are available to use</summary>
+		public int FreeInstancesCount => contents.Count;
+
 		/// <param name="CreateNew">Method that will be used to create new instances </param>
 		/// <param name="OnChange">Method that's run whenever an instance is being taken or returned. True meaning is being taken.</param>
 		public Pool(Func<T> CreateNew, Action<bool, T> OnChange) : this(CreateNew)

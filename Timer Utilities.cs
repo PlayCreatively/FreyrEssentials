@@ -73,13 +73,28 @@ namespace FreyrEssentials
 	public class Timer : Bar
 	{
 		public float TimeStarted { get; private set; }
+		public float SetTime => base.TopValue;
 		public override float CurrentValue => GetTime() - TimeStarted;
 
         readonly Func<float> GetTime = () => Time.time;
 
+    #region Statics👁
+
+        public static Timer Create(float setTime, Normalization normalization = 0)
+            => Create(setTime, () => Time.time, normalization);
+        public static Timer Create(float setTime, Func<float> timeSource, Normalization normalization = 0)
+        {
+            Timer timer = new Timer(normalization, timeSource);
+            timer.Start(setTime);
+            return timer;
+        }
+
+
+        public static Timer Finished => new Timer { Reached = true }; 
+    #endregion
+
 		/// <param name="time">The time to count towards.</param>
 		/// <param name="clamp">Whether to clamp the progress or let it exceed 1. By default it's true</param>
-
 		public Timer() : base() { }
 
 		public Timer(Normalization normalization) : base(normalization) { }
@@ -97,28 +112,31 @@ namespace FreyrEssentials
 			Reached = false;
 			TopValue = setTime;
 		}
-		public static Timer Create(float setTime, Normalization normalization = 0) 
-			=> Create(setTime, () => Time.time, normalization);
-		public static Timer Create(float setTime, Func<float> timeSource, Normalization normalization = 0)
-        {
-			Timer timer = new Timer(normalization, timeSource);
-			timer.Start(setTime);
-			return timer;
-        }
 
-		public static Timer Finished => new Timer { Reached = true };
-
-		public IEnumerator GetRoutine(Action<float> Routine)
+		/// <summary>
+		/// Runs until timer is complete
+		/// </summary>
+        public IEnumerator GetRoutine(Action<Timer> Routine)
 		{
 			if (Routine == null) yield break;
 			Restart();
-			do
+			while (!this)
 			{
-				Routine(this);
 				yield return null;
+				Routine(this);
 			}
-			while (!this);
 		}
+
+		public IEnumerator GetRoutine(Action OnComplete)
+		{
+			if (OnComplete == null) yield break;
+			Restart();
+			while (!this) yield return null;
+			OnComplete();
+		}
+
+		//TODO: Pause()/Resume()
+		//Can be restarted to resume as well
 
 		public override void Restart()
         {
