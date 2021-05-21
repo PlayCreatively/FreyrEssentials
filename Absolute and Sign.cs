@@ -1,45 +1,40 @@
-﻿namespace FreyrEssentials
-{
-#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
-#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
-	/// <summary>
-	/// Sign value of float
-	/// </summary>
-	public struct Sign
-#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
-#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
-	{
-		readonly int Value;
+﻿using UnityEngine;
 
-		public readonly static Sign positive = new Sign(1);
-		public readonly static Sign negative = new Sign(-1);
+namespace FreyrEssentials
+{
+    /// <summary>
+    /// Sign value of float
+    /// </summary>
+    public struct Sign
+    {
+        readonly bool Value;
+
+		public readonly static Sign POSITIVE = true;
+		public readonly static Sign NEGATIVE = false;
 
 		public Sign(float value) : this()
-			=> Value = value < 0 ? -1 : 1;
+			=> Value = value >= 0;
 
 		public Sign(int value) : this()
-			=> Value = value < 0 ? -1 : 1;
+			=> Value = value >= 0;
+
+		public Sign(bool value) : this()
+			=> Value = value;
 
 		public static implicit operator Sign(float value)
 			=> new Sign(value);
 
-		public static implicit operator float(Sign value)
-			=> value.Value;
+		public static implicit operator float(Sign sign)
+			=> sign.Value ? 1f : -1f;
 
-		public static implicit operator int(Sign value)
-			=> value.Value;
+		public static implicit operator int(Sign sign)
+			=> sign.Value ? 1 : -1;
 
-		static bool IsPositive(float value) => value >= 0f;
+		public static implicit operator double(Sign sign)
+			=> sign.Value ? 1.0 : -1.0;
 
-		public static bool operator ==(float floatValue, Sign signValue)
-			=> IsPositive(floatValue) == IsPositive(signValue.Value);
-		public static bool operator !=(float floatValue, Sign signValue)
-			=> IsPositive(floatValue) != IsPositive(signValue.Value);
-		public static implicit operator bool(Sign sign)
-			=> IsPositive(sign);
-
-		public static Sign operator -(Sign value)
-			=> -value.Value;
+		public static implicit operator Sign(bool value)
+			=> new Sign(value);
 	}
 
 	/// <summary>
