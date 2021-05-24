@@ -158,6 +158,8 @@ namespace FreyrEssentials
 		}
 
 
+		public Charger(float topValue) : this(topValue, 0f) 
+		{ }
 		public Charger(float topValue, float deltaDecline)
 			=> (this.TopValue, this.deltaDecline) = (topValue, deltaDecline);
 
