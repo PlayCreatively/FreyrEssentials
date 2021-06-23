@@ -1,4 +1,4 @@
-# Timer class
+# ⏳ Timer class
 Create a countdown and start the timer
 ``` c#
 //Create and start a count down of 5 seconds.
@@ -19,12 +19,12 @@ while(!myTimer)
 # Pool\<T> class  
 _Lightweight generic pooling class._
 
-### Why use Pool?
+### 🤔 Why use Pool?
 Pool is just a simple lightweight pooling system which takes care of the pooling boilerplate.
 
 ### How to use <img src="https://static.wikia.nocookie.net/dragonquest/images/6/60/Slime_Artwork.png/revision/latest/scale-to-width-down/1000?cb=20201021141416" draggable="false" alt="drawing" width="30"/><img/>
 
-### Constructing a pool
+### 🔨 Constructing a pool
 ``` c#
 Pool<Slime> slimePool = new Pool<Slime>
             (() => new GameObject().AddComponent<Slime>(),
@@ -43,5 +43,5 @@ The second parameter is optional, called `OnChange` which is an `Action<bool, T>
 //Enable/disable the slime component based on if it's being borrowed or returned.
 (isSpawning, slime) => slime.gameObject.SetActive(isSpawning)
 ```
-### Borrow/Return
+### 🔁 Borrow/Return
 Now that you've made a pool you can start borrowing and returning slime instances using `slimePool.Borrow()` and `slimePool.Return(Slime)` respectively.
