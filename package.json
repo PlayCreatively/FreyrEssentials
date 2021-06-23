@@ -5,16 +5,16 @@
   "description": "This is an example package",
   "unity": "2019.1",
   "unityRelease": "0b5",
-  "documentationUrl": "https://example.com/",
-  "changelogUrl": "https://example.com/changelog.html",
-  "licensesUrl": "https://example.com/licensing.html",
+  "documentationUrl": "https://github.com/PlayCreatively/FreyrEssentials#readme",
+  "licensesUrl": "https://github.com/PlayCreatively/FreyrEssentials/blob/main/LICENSE",
   "keywords": [
-    "keyword1",
-    "keyword2",
-    "keyword3"
+    "Unity",
+    "Essentials",
+    "C#",
+    "Freyr"
   ],
   "author": {
-    "name": "Alexander Freyr \u00deorgeirsson",
+    "name": "Alexander Freyr Þorgeirsson",
     "url": "https://www.alexanderfreyr.com"
   },
   "type": "library"
