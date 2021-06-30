@@ -26,22 +26,22 @@ Pool is just a simple lightweight pooling system which takes care of the pooling
 
 ### 🔨 Constructing a pool
 ``` c#
-Pool<Slime> slimePool = new Pool<Slime>
-            (() => new GameObject().AddComponent<Slime>(),
-            (isSpawning, slime) => slime.gameObject.SetActive(isSpawning));
+Pool<Slime> slimePool = new Pool<Slime>(
+            CreateNew: () => new GameObject().AddComponent<Slime>(),
+            OnChange: (isSpawning, slime) => slime.gameObject.SetActive(isSpawning));
 ```
 ___
 The first parameter called `CreateNew` is a `Func<T>` which will be used
 by the Pool class to create new instances of `T`.
 ``` c#
 //Method which instantiates a gameObject, adds a slime component and returns a reference to it.
-() => new GameObject().AddComponent<Slime>() 
+CreateNew: () => new GameObject().AddComponent<Slime>() 
 ```
 ___
 The second parameter is optional, called `OnChange` which is an `Action<bool, T>` and runs when a T instance is being either __borrowed__ or __returned__.
 ``` c#
-//Enable/disable the slime component based on if it's being borrowed or returned.
-(isSpawning, slime) => slime.gameObject.SetActive(isSpawning)
+//Enable or disable the slime component based on if it's being borrowed or returned.
+OnChange: (isSpawning, slime) => slime.gameObject.SetActive(isSpawning)
 ```
 ### 🔁 Borrow/Return
 Now that you've made a pool you can start borrowing and returning slime instances using `slimePool.Borrow()` and `slimePool.Return(Slime)` respectively.
