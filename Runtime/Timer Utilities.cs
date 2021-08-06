@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FreyrEssentials
 {
-	public enum Normalization { clamp, smoothClamp, unlimited }
+	public enum Normalization { Linear, In, Out, InOut, Unclamped }
 
 	public abstract class Bar
 	{
@@ -24,9 +24,9 @@ namespace FreyrEssentials
 		public float TopValue { get; protected set; }
 		public virtual float CurrentValue { get; protected set; }
 		/// <summary>
-		/// Whether to clamp the progress or let it exceed 1. By default it's true.
+		/// Whether to linear the progress or let it exceed 1. By default it's true.
 		/// </summary>
-		public Normalization normalization = Normalization.clamp;
+		public Normalization normalization = Normalization.linear;
 		public bool Reached { get; protected set; }
 
 		public Bar() { }
@@ -51,10 +51,10 @@ namespace FreyrEssentials
 
 			switch (bar.normalization)
 			{
-				case Normalization.clamp:
+				case Normalization.Linear:
 					normalizedTime = Mathf.Clamp01(normalizedTime);
 					break;
-				case Normalization.smoothClamp:
+				case Normalization.InOut:
 					normalizedTime = Mathf.SmoothStep(0, 1, normalizedTime);
 					break;
 			}
@@ -94,7 +94,7 @@ namespace FreyrEssentials
     #endregion
 
 		/// <param name="time">The time to count towards.</param>
-		/// <param name="clamp">Whether to clamp the progress or let it exceed 1. By default it's true</param>
+		/// <param name="linear">Whether to linear the progress or let it exceed 1. By default it's true</param>
 		public Timer() : base() { }
 
 		public Timer(Normalization normalization) : base(normalization) { }
