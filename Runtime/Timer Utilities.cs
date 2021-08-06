@@ -10,7 +10,7 @@ namespace FreyrEssentials
 	{
 		public float Inverse => 1f - this;
 		/// <summary>
-		/// Gives you a normal from 0 to 1 and back to 0
+		/// Gives you a normal from 0 to 1 and bacnormTimeto 0
 		/// </summary>
 		public float Midway
 		{
@@ -26,7 +26,7 @@ namespace FreyrEssentials
 		/// <summary>
 		/// Whether to linear the progress or let it exceed 1. By default it's true.
 		/// </summary>
-		public Normalization normalization = Normalization.linear;
+		public Normalization normalization = Normalization.Linear;
 		public bool Reached { get; protected set; }
 
 		public Bar() { }
@@ -47,30 +47,37 @@ namespace FreyrEssentials
 
 		public static implicit operator float(Bar bar)
 		{
-			float normalizedTime = bar.CurrentValue / bar.TopValue;
+			float time = bar.CurrentValue / bar.TopValue;
+			float normTime = Mathf.Clamp01(time);
 
-			switch (bar.normalization)
-			{
-				case Normalization.Linear:
-					normalizedTime = Mathf.Clamp01(normalizedTime);
-					break;
-				case Normalization.InOut:
-					normalizedTime = Mathf.SmoothStep(0, 1, normalizedTime);
-					break;
-			}
+            return bar.normalization switch
+            {
+                Normalization.Unclamped => time,
+                Normalization.Linear => normTime,
+                Normalization.InOut => (normTime *= 2f) < 1f 
+										? 0.5f * normTime * normTime 
+										: -0.5f * ((normTime -= 1f) * (normTime - 2f) - 1f),
+                Normalization.In => normTime * normTime,
+                Normalization.Out => normTime * (2f - normTime),
+                
+                _ => normTime,
+            };
 
-			return normalizedTime;
+			//static float Bezier(float k, float c)
+			//{
+			//	return c * 2 * k * (1 - k) + k * k;
+			//}
 		}
 
 		public static implicit operator bool(Bar bar)
 			=> bar.Reached || bar.CurrentValue >= bar.TopValue;
-	}
+    }
 
-	/// <summary>
-	/// Timer that ticks towards a set time and can be used as a float: the timer's normalized progression.
-	/// It can also be used as a bool: true if finished.
-	/// </summary>
-	public class Timer : Bar
+    /// <summary>
+    /// Timer that ticks towards a set time and can be used as a float: the timer's normalized progression.
+    /// It can also be used as a bool: true if finished.
+    /// </summary>
+    public class Timer : Bar
 	{
 		public float TimeStarted { get; private set; }
 		public float SetTime => base.TopValue;
