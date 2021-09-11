@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine;
+using System.Runtime.InteropServices;
 
 namespace FreyrEssentials
 {
@@ -10,7 +10,7 @@ namespace FreyrEssentials
 	{
 		public float Inverse => 1f - this;
 		/// <summary>
-		/// Gives you a normal from 0 to 1 and bacnormTimeto 0
+		/// Gives you a normal from 0 to 1 then back to 0
 		/// </summary>
 		public float Midway
 		{
@@ -48,7 +48,7 @@ namespace FreyrEssentials
 		public static implicit operator float(Bar bar)
 		{
 			float time = bar.CurrentValue / bar.TopValue;
-			float normTime = Mathf.Clamp01(time);
+			float normTime = Math.Clamp(time, 0f, 1f);
 
             return bar.normalization switch
             {
@@ -83,12 +83,12 @@ namespace FreyrEssentials
 		public float SetTime => base.TopValue;
 		public override float CurrentValue => GetTime() - TimeStarted;
 
-        readonly Func<float> GetTime = () => Time.time;
+        readonly Func<float> GetTime = () => (float)DateTime.Now.TimeOfDay.TotalSeconds;
 
     #region Statics👁
 
         public static Timer Create(float setTime, Normalization normalization = 0)
-            => Create(setTime, () => Time.time, normalization);
+            => Create(setTime, null, normalization);
         public static Timer Create(float setTime, Func<float> timeSource, Normalization normalization = 0)
         {
             Timer timer = new Timer(normalization, timeSource);
@@ -107,7 +107,7 @@ namespace FreyrEssentials
 		public Timer(Normalization normalization) : base(normalization) { }
 		public Timer(Normalization normalization, Func<float> timeSource) : base(normalization)
         {
-			GetTime = timeSource;
+			GetTime ??= timeSource;
         }
 
 		/// <summary>
@@ -158,22 +158,22 @@ namespace FreyrEssentials
 	public class Charger : Bar
 	{
 		public float deltaDecline;
+		public Func<float> deltaTime;
 		public void Charge(float amount)
 		{
 			CurrentValue += amount;
-			CurrentValue = Mathf.Clamp(CurrentValue, 0f, TopValue);
+			CurrentValue = Math.Clamp(CurrentValue, 0f, TopValue);
 		}
 
 
-		public Charger(float topValue) : this(topValue, 0f) 
-		{ }
-		public Charger(float topValue, float deltaDecline)
-			=> (this.TopValue, this.deltaDecline) = (topValue, deltaDecline);
+		public Charger(float topValue, Func<float> deltaTime) : this(topValue, deltaTime, 0f) { }
+		public Charger(float topValue, Func<float> deltaTime, float deltaDecline)
+			=> (this.TopValue, this.deltaTime, this.deltaDecline) = (topValue, deltaTime, deltaDecline);
 
 
 		public static implicit operator float(Charger charger)
 		{
-			charger.CurrentValue -= Time.deltaTime * charger.deltaDecline;
+			charger.CurrentValue -= charger.deltaTime() * charger.deltaDecline;
 			return (Bar)charger;
 		}
 	}
